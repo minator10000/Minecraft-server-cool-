@@ -3,13 +3,13 @@ name: Windows - RustDesk
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'  # Optional: runs daily at midnight UTC (remove if unwanted)
+    - cron: '0 0 * * *'  # Daily at midnight UTC
 
 jobs:
   build:
     name: Start Building...
     runs-on: windows-latest
-      # Max allowed: 72 hours
+    timeout-minutes: 4320  # Max allowed: 72 hours
 
     steps:
       - name: Downloading & Installing Essentials
@@ -22,6 +22,16 @@ jobs:
 
       - name: Time Counter
         run: python time.py
+
+      # Debug steps to print script contents
+      - name: Print time.py content
+        run: type time.py
+
+      - name: Print Downloads.bat content
+        run: type Downloads.bat
+
+      - name: Print show.bat content
+        run: type show.bat
 
       - name: Keep Alive Loop (72 hours max)
         run: |
